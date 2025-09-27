@@ -132,8 +132,6 @@ async def get_user(user_id: str):
 
 @api_router.post("/study-goals", response_model=StudyGoal)
 async def create_study_goal(goal_data: StudyGoalCreate, user_id: str):
-    user = await check_usage_limit(user_id)
-    
     goal = StudyGoal(user_id=user_id, **goal_data.dict())
     goal_dict = prepare_for_mongo(goal.dict())
     await db.study_goals.insert_one(goal_dict)
